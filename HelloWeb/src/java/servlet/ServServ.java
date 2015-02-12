@@ -6,7 +6,16 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,10 +43,8 @@ public class ServServ extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
-            
+
             //out.println("<h1>Servlet ServServ at " + request.getContextPath() + "</h1>");
-            
         }
     }
 
@@ -81,13 +88,13 @@ public class ServServ extends HttpServlet {
     }// </editor-fold>
 
     /**
-     * 
+     *
      * @param strTitle the title of the page
      * @return returns a string that is the start of an html page
      */
-    private String startHTML(String strTitle){
+    private String startHTML(String strTitle) {
         StringBuilder sbReturn = new StringBuilder();
-        
+
         sbReturn.append("<!DOCTYPE html>");
         sbReturn.append("<html>");
         sbReturn.append("   <head>");
@@ -96,54 +103,54 @@ public class ServServ extends HttpServlet {
         sbReturn.append("       </title>");
         sbReturn.append("   </head>");
         sbReturn.append("   <body>");
-        
+
         return sbReturn.toString();
     }
-    
+
     /**
-     * 
+     *
      * @param strTitle the title of the page
      * @param strCssSheet the location and name of the desired css
      * @return returns a string that is the start of an html page
      */
-    private String startHTML(String strTitle, String strCssSheet){
+    private String startHTML(String strTitle, String strCssSheet) {
         StringBuilder sbReturn = new StringBuilder();
-        
+
         sbReturn.append("<!DOCTYPE html>");
         sbReturn.append("<html>");
         sbReturn.append("   <head>");
         sbReturn.append("       <title>");
         sbReturn.append("           " + strTitle);
         sbReturn.append("       </title>");
-        sbReturn.append("       <link rel=\"stylesheet\" type=\"text/css\" href=\"" + strCssSheet + "\">");       
+        sbReturn.append("       <link rel=\"stylesheet\" type=\"text/css\" href=\"" + strCssSheet + "\">");
         sbReturn.append("   </head>");
         sbReturn.append("   <body>");
-        
+
         return sbReturn.toString();
     }
-    
+
     /**
-     * 
+     *
      * @return returns the closing of the html page.
      */
-    private String closeHTML(){
+    private String closeHTML() {
         StringBuilder sbReturn = new StringBuilder();
-        
+
         sbReturn.append("   </body>");
         sbReturn.append("</html>");
-        
+
         return sbReturn.toString();
-        
+
     }
-    
+
     /**
-     * 
+     *
      * @param aryServer, the list of servers
      * @return a HTML table with the servers and statuses in it
      */
-    private String createServerTable(WoWServer[] aryServer){
+    private String createServerTable(WoWServer[] aryServer) {
         StringBuilder sbReturn = new StringBuilder();
-        
+
         //Open the table
         sbReturn.append("<table>");
         sbReturn.append("   <caption>");
@@ -158,7 +165,7 @@ public class ServServ extends HttpServlet {
         sbReturn.append("       </th>");
         sbReturn.append("   </tr>");
 
-        for(int i = 0; i < aryServer.length; i++){
+        for (int i = 0; i < aryServer.length; i++) {
             sbReturn.append("<tr>");
             sbReturn.append("   <td>");
             sbReturn.append("       " + aryServer[i].getName());
@@ -168,12 +175,38 @@ public class ServServ extends HttpServlet {
             sbReturn.append("   </td>");
             sbReturn.append("</tr>");
         }
-        
+
         sbReturn.append("</table>");
-       
+
         return sbReturn.toString();
     }
-    
-    
-    
+
+    private WoWServer[] makeServerAPIRequest() {
+        InputStream is = null;
+        WoWServer[] aryServer = null;
+        try {
+            
+            is = new URL("http://us.battle.net/api/wow/realm/status?realms=Medivh").openStream();
+            JsonReader jsonReader = Json.createReader(is);
+            JsonObject jsonObject = jsonReader.readObject();
+            JsonArray jsonArray = jsonObject.getJsonArray("realms");
+            jsonReader.close();
+            
+            for(int i = 0; i < jsonArray.size(); i++){
+                JsonObject obj = jsonArray.getJsonObject(i);
+            }
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ServServ.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ServServ.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return aryServer;
+    }
+
 }
