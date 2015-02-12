@@ -136,5 +136,44 @@ public class ServServ extends HttpServlet {
         
     }
     
+    /**
+     * 
+     * @param aryServer, the list of servers
+     * @return a HTML table with the servers and statuses in it
+     */
+    private String createServerTable(WoWServer[] aryServer){
+        StringBuilder sbReturn = new StringBuilder();
+        
+        //Open the table
+        sbReturn.append("<table>");
+        sbReturn.append("   <caption>");
+        sbReturn.append("       WoW Server Status");
+        sbReturn.append("   </caption>");
+        sbReturn.append("   <tr>");
+        sbReturn.append("       <th>");
+        sbReturn.append("           Name");
+        sbReturn.append("       </th>");
+        sbReturn.append("       <th>");
+        sbReturn.append("           Status");
+        sbReturn.append("       </th>");
+        sbReturn.append("   </tr>");
+
+        for(int i = 0; i < aryServer.length; i++){
+            sbReturn.append("<tr>");
+            sbReturn.append("   <td>");
+            sbReturn.append("       " + aryServer[i].getName());
+            sbReturn.append("   </td>");
+            sbReturn.append("   <td>");
+            sbReturn.append("       " + aryServer[i].getStatus());
+            sbReturn.append("   </td>");
+            sbReturn.append("</tr>");
+        }
+        
+        sbReturn.append("</table>");
+       
+        return sbReturn.toString();
+    }
+    
+    
     
 }
