@@ -85,4 +85,45 @@ public class ServServ extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /**
+     * 
+     * @param strTitle the title of the page
+     * @return returns a string that is the start of an html page
+     */
+    public String startHTML(String strTitle){
+        StringBuilder sbReturn = new StringBuilder();
+        
+        sbReturn.append("<!DOCTYPE html>");
+        sbReturn.append("<html>");
+        sbReturn.append("   <head>");
+        sbReturn.append("       <title>");
+        sbReturn.append("           " + strTitle);
+        sbReturn.append("       </title>");
+        sbReturn.append("   </head>");
+        sbReturn.append("   <body>");
+        
+        return sbReturn.toString();
+    }
+    
+    /**
+     * 
+     * @param strTitle the title of the page
+     * @param strCssSheet the location and name of the desired css
+     * @return returns a string that is the start of an html page
+     */
+    public String startHTML(String strTitle, String strCssSheet){
+        StringBuilder sbReturn = new StringBuilder();
+        
+        sbReturn.append("<!DOCTYPE html>");
+        sbReturn.append("<html>");
+        sbReturn.append("   <head>");
+        sbReturn.append("       <title>");
+        sbReturn.append("           " + strTitle);
+        sbReturn.append("       </title>");
+        sbReturn.append("       <link rel=\"stylesheet\" type=\"text/css\" href=\"" + strCssSheet + "\">");       
+        sbReturn.append("   </head>");
+        sbReturn.append("   <body>");
+        
+        return sbReturn.toString();
+    }
 }

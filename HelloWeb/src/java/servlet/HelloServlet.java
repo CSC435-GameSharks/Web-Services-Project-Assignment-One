@@ -53,7 +53,7 @@ public class HelloServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -87,8 +87,8 @@ public class HelloServlet extends HttpServlet {
                 
                 for(int i = 0; i < jsonArray.size(); i++){
                     JsonObject obj = jsonArray.getJsonObject(i);
-                    //out.print("Server: " + obj.getString("name") +  " Status: " + obj.getBoolean("status"));
-                    //out.print("</br></br>");
+                   out.print("Server: " + obj.getString("name") +  " Status: " + obj.getBoolean("status"));
+                   out.print("</br></br>");
                 }
                 
                 
