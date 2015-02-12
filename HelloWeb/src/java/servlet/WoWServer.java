@@ -47,9 +47,9 @@ public class WoWServer {
         //now we know how many connected realms we have <3
         aryConnectedRealms = new String[jsonArray.size()];
 
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JsonObject obj = jsonArray.getJsonObject(i);
-        }
+        //for (int i = 0; i < jsonArray.size(); i++) {
+        //    JsonObject obj = jsonArray.getJsonObject(i);
+        //}
 
     }
 

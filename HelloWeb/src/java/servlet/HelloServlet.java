@@ -23,8 +23,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sun.misc.IOUtils;
-import sun.net.www.http.HttpClient;
+//import sun.misc.IOUtils;
+//import sun.net.www.http.HttpClient;
 
 import javax.json.*;
 import javax.json.Json;
