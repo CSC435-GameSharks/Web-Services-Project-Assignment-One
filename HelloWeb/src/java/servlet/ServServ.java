@@ -34,15 +34,10 @@ public class ServServ extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServServ</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServServ at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            
+            //out.println("<h1>Servlet ServServ at " + request.getContextPath() + "</h1>");
+            
         }
     }
 
@@ -90,7 +85,7 @@ public class ServServ extends HttpServlet {
      * @param strTitle the title of the page
      * @return returns a string that is the start of an html page
      */
-    public String startHTML(String strTitle){
+    private String startHTML(String strTitle){
         StringBuilder sbReturn = new StringBuilder();
         
         sbReturn.append("<!DOCTYPE html>");
@@ -111,7 +106,7 @@ public class ServServ extends HttpServlet {
      * @param strCssSheet the location and name of the desired css
      * @return returns a string that is the start of an html page
      */
-    public String startHTML(String strTitle, String strCssSheet){
+    private String startHTML(String strTitle, String strCssSheet){
         StringBuilder sbReturn = new StringBuilder();
         
         sbReturn.append("<!DOCTYPE html>");
@@ -126,4 +121,20 @@ public class ServServ extends HttpServlet {
         
         return sbReturn.toString();
     }
+    
+    /**
+     * 
+     * @return returns the closing of the html page.
+     */
+    private String closeHTML(){
+        StringBuilder sbReturn = new StringBuilder();
+        
+        sbReturn.append("   </body>");
+        sbReturn.append("</html>");
+        
+        return sbReturn.toString();
+        
+    }
+    
+    
 }
