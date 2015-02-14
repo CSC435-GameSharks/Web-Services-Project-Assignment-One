@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
+ * 
  * @author kellymaestri
  */
 public class LeagueServerStatus extends HttpServlet {
