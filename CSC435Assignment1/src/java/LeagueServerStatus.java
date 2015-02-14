@@ -7,8 +7,12 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.servlet.ServletException;
@@ -18,12 +22,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * 
+ *
  * @author kellymaestri
  */
 public class LeagueServerStatus extends HttpServlet {
 
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,38 +41,88 @@ public class LeagueServerStatus extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LeagueServerStatus</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LeagueServerStatus at " + request.getContextPath() + "</h1>");
-            InputStream is = new URL("http://status.leagueoflegends.com/shards").openStream();
-            JsonReader jsonReader = Json.createReader(is);
-                
-                JsonObject json = jsonReader.readObject();
-               // out.println(json.toString());
-                //out.println(json.get("kmae26").toString());
-                JsonObject values = json.getJsonObject("kmae26");
-                out.print("</br>");
-                out.println("Name: "+values.get("name").toString());
-                out.print("</br>");
-                out.println("ID: "+values.get("id").toString());
-                out.print("</br>");
-                out.println("Level: "+values.get("summonerLevel").toString());
-                
+            String strOutput = "";
+            strOutput = startHTML("League Server Status");
+            strOutput += makeServerAPIRequest();
+            strOutput += closeHTML();
 
-                jsonReader.close();
-                is.close();
-
-            
-            out.println("</body>");
-            out.println("</html>");
-        }catch (Exception ex) {
+            try {
+                out.println(strOutput);
+            } catch (Exception ex) {
                 System.out.println(ex);
-
+                out.println(ex);
+                out.println("</body>");
+                out.println("</html>");
             }
+        }    
+    }
+
+    private String startHTML(String strTitle) {
+        StringBuilder sbReturn = new StringBuilder();
+
+        sbReturn.append("<!DOCTYPE html>");
+        sbReturn.append("<html>");
+        sbReturn.append("   <head>");
+        sbReturn.append("       <title>");
+        sbReturn.append("           " + strTitle);
+        sbReturn.append("       </title>");
+        sbReturn.append("   </head>");
+        sbReturn.append("   <body>");
+
+        return sbReturn.toString();
+    }
+
+    private String closeHTML() {
+        StringBuilder sbReturn = new StringBuilder();
+
+        sbReturn.append("   </body>");
+        sbReturn.append("</html>");
+
+        return sbReturn.toString();
+
+    }
+
+    private String makeServerAPIRequest() {
+        InputStream is = null;
+        int numServs;
+        StringBuilder sbReturn = new StringBuilder();
+        try {
+            is = new URL("http://status.leagueoflegends.com/shards").openStream();
+
+            JsonReader jsonReader = Json.createReader(is);
+
+            JsonArray json = jsonReader.readArray();
+            sbReturn.append(json.toString());
+            sbReturn.append("</br>");
+            sbReturn.append("</br>");
+            numServs = json.size();
+            for(int i = 0; i < numServs; i++){
+            sbReturn.append("</br>"); 
+            sbReturn.append(json.getJsonObject(i).toString());
+            
+            }
+                //out.println(json.get("kmae26").toString());
+
+            jsonReader.close();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LeagueServerStatus.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (IOException ioe) {
+            Logger.getLogger(LeagueServerStatus.class.getName()).log(Level.SEVERE, null, ioe);
+
+        } catch (Exception e) {
+            Logger.getLogger(LeagueServerStatus.class.getName()).log(Level.SEVERE, null, e);
+
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LeagueServerStatus.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return sbReturn.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

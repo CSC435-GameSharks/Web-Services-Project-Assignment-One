@@ -7,14 +7,15 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.json.JsonValue;
 import javax.servlet.ServletException;
-import static javax.servlet.SessionTrackingMode.URL;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author kellymaestri
  */
+@WebServlet(name = "LSumServ", urlPatterns = {"/LSumServ"})
 public class LeagueNames extends HttpServlet {
 
     /**
@@ -37,86 +39,94 @@ public class LeagueNames extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-          try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet League Names</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet League Names Look Up </h1>");
+        try (PrintWriter out = response.getWriter()) {
+            String strOutput = "";
+            strOutput = startHTML("League Summoner Look UP");
+            strOutput += makeServerAPIRequest();
+            strOutput += closeHTML();
 
-            out.println("<br />Summoner Name\n");
-            out.println("<br />\n" );
-            out.println("<input id=\"userName\" />\n" );
-            out.println("<input type=\"submit\" onclick=\"summonerLookUp(out);\" />");
-//            try {
-//
-//                InputStream is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/kmae26?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
-//             
-//                JsonReader jsonReader = Json.createReader(is);
-//                
-//                JsonObject json = jsonReader.readObject();
-//               // out.println(json.toString());
-//                //out.println(json.get("kmae26").toString());
-//                JsonObject values = json.getJsonObject("kmae26");
-//                out.print("</br>");
-//                out.println("Name: "+values.get("name").toString());
-//                out.print("</br>");
-//                out.println("ID: "+values.get("id").toString());
-//                out.print("</br>");
-//                out.println("Level: "+values.get("summonerLevel").toString());
-//                
-//
-//                jsonReader.close();
-//                is.close();
-//                
-//
-//            } catch (Exception ex) {
-//                System.out.println(ex);
-//                out.println(ex);
-//                out.println("</body>");
-//                out.println("</html>");
-//            }
-
-        }
-     
-    }
-    
-    private void summonerLookup(PrintWriter out, String n){
-    String name = n.toLowerCase().trim();
-        try {
-
-                InputStream is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/"+name+"?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
-             
-                JsonReader jsonReader = Json.createReader(is);
-                
-                JsonObject json = jsonReader.readObject();
-               // out.println(json.toString());
-                //out.println(json.get("kmae26").toString());
-                JsonObject values = json.getJsonObject("kmae26");
-                out.print("</br>");
-                out.println("Name: "+values.get("name").toString());
-                out.print("</br>");
-                out.println("ID: "+values.get("id").toString());
-                out.print("</br>");
-                out.println("Level: "+values.get("summonerLevel").toString());
-                
-
-                jsonReader.close();
-                is.close();
-                
-
+            try {
+                out.println(strOutput);
             } catch (Exception ex) {
                 System.out.println(ex);
                 out.println(ex);
                 out.println("</body>");
                 out.println("</html>");
             }
-    
-    
+
+        }
+
     }
+
+    private String startHTML(String strTitle) {
+        StringBuilder sbReturn = new StringBuilder();
+
+        sbReturn.append("<!DOCTYPE html>");
+        sbReturn.append("<html>");
+        sbReturn.append("   <head>");
+        sbReturn.append("       <title>");
+        sbReturn.append("           ").append(strTitle);
+        sbReturn.append("       </title>");
+        sbReturn.append("   </head>");
+        sbReturn.append("   <body>");
+
+        return sbReturn.toString();
+    }
+
+    private String closeHTML() {
+        StringBuilder sbReturn = new StringBuilder();
+
+        sbReturn.append("   </body>");
+        sbReturn.append("</html>");
+
+        return sbReturn.toString();
+
+    }
+
+    private String makeServerAPIRequest() {
+        InputStream is = null;
+        StringBuilder sbReturn = new StringBuilder();
+        try {
+
+            is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/kmae26?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
+
+            JsonReader jsonReader = Json.createReader(is);
+
+            JsonObject json = jsonReader.readObject();
+               // out.println(json.toString());
+            //out.println(json.get("kmae26").toString());
+            JsonObject values = json.getJsonObject("kmae26");
+            sbReturn.append("</br>");
+            sbReturn.append("Summoner Name: ").append(values.get("name").toString());
+            sbReturn.append("</br>");
+            sbReturn.append("ID: ").append(values.get("id").toString());
+            sbReturn.append("</br>");
+            sbReturn.append("Level: ").append(values.get("summonerLevel").toString());
+
+            jsonReader.close();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LeagueNames.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (IOException ioe) {
+            Logger.getLogger(LeagueNames.class.getName()).log(Level.SEVERE, null, ioe);
+
+        } catch (Exception e) {
+            Logger.getLogger(LeagueNames.class.getName()).log(Level.SEVERE, null, e);
+
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LeagueNames.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return sbReturn.toString();
+
+    }
+
+
     
    
 
