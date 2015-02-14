@@ -166,7 +166,7 @@ public class WoWServServ extends HttpServlet {
         StringBuilder sbReturn = new StringBuilder();
 
         //Open the table
-        sbReturn.append("<table>");
+        sbReturn.append("<table class=\"serverTable\">");
         sbReturn.append("   <caption>");
         sbReturn.append("       WoW Server Status");
         sbReturn.append("   </caption>");
