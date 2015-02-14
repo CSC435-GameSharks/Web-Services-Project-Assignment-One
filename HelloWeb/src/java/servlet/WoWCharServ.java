@@ -221,6 +221,11 @@ public class WoWCharServ extends HttpServlet {
         return sbReturn.toString();
     }
     
+    /**
+     * 
+     * @param wowChar
+     * @return an HTML table containing the character data
+     */
     private String createCharHTML(WoWCharacter wowChar){
         StringBuilder sbReturn = new StringBuilder();
         
@@ -228,7 +233,7 @@ public class WoWCharServ extends HttpServlet {
         sbReturn.append("   <h2 class=\"characterTitle\">");
         sbReturn.append("       Character Profile");
         sbReturn.append("   </h2>");
-        sbReturn.append("   <table>");
+        sbReturn.append("   <table class=\"charTable\">");
         sbReturn.append("       <tr>");
         sbReturn.append("           <td class=\"mainDivPhoto\" rowspan=\"5\">");
         sbReturn.append("               <img src=\"http://us.battle.net/static-render/us/" + wowChar.getThumbnail() + "\"/>");
@@ -255,12 +260,12 @@ public class WoWCharServ extends HttpServlet {
         sbReturn.append("               Battlegroup: " + wowChar.getBattleGroup());
         sbReturn.append("           </td>");
         sbReturn.append("       </tr>");
-        sbReturn.append("       <tr colspan=\"2\">");
+        sbReturn.append("       <tr>");
         sbReturn.append("           <td>");
         sbReturn.append("               Honourable Kills: " + wowChar.getHonorableKills());
         sbReturn.append("           </td>");
         sbReturn.append("       </tr>");
-        sbReturn.append("       <tr colspan=\"2\">");
+        sbReturn.append("       <tr>");
         sbReturn.append("           <td>");
         sbReturn.append("               Achievement Points: " + wowChar.getAchievementPoints());
         sbReturn.append("           </td>");

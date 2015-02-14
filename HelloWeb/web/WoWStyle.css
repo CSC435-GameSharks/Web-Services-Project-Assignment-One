@@ -22,11 +22,11 @@ and open the template in the editor.
     text-align: left;
 }
 
- table, .serverTable th, .serverTable td {
+table, .serverTable th, .serverTable td {
     border: 1px solid black;
     border-collapse: collapse;
 }
- .serverTable th{
+.serverTable th{
     padding: 5px;
     text-align: left;
 }
@@ -34,7 +34,7 @@ and open the template in the editor.
 .mainDiv {
     position: fixed;
     min-height: 50px;
-    width: 400px;			
+    width: 300px;			
     border: 1px solid #ababab;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -66,4 +66,9 @@ and open the template in the editor.
 .mainDivPhoto{
     width:84px;
     height:84px;
+}
+
+.charTable {
+    border: 0px solid #f00 !important;
+    border-collapse: collapse;
 }

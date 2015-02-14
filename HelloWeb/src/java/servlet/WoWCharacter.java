@@ -5,9 +5,17 @@
  */
 package servlet;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 /**
  *
@@ -21,7 +29,9 @@ public class WoWCharacter {
     private String sRealm;
     private String sBattleGroup;
     private int intClass;
+    private String sClass;
     private int intRace;
+    private String sRace;
     private int intGender;
     private int intLevel;
     private int intAchievementPoints;
@@ -44,6 +54,8 @@ public class WoWCharacter {
         sCalcClass = objIn.getString("calcClass");
         intHonorableKills = objIn.getInt("totalHonorableKills");
         
+        sClass = getClassString();
+        sRace = getRaceString();
     }
     
     /**
@@ -74,16 +86,25 @@ public class WoWCharacter {
      * 
      * @return the characters class
      */
-    public int getCharClass(){
+    public int getCharClassID(){
         return intClass;
+    }
+    
+    
+    public String getCharClass(){
+        return sClass;
     }
     
     /**
      * 
      * @return the characters race
      */
-    public int getRace(){
+    public int getRaceID(){
         return intRace;
+    }
+    
+    public String getRace(){
+        return sRace;
     }
     
     /**
@@ -135,7 +156,83 @@ public class WoWCharacter {
     }
     
     
+    private String getClassString(){
+        String sReturn = null;
+        
+        InputStream is = null;
+        
+        try{
+            is = new URL("http://us.battle.net/api/wow/data/character/classes").openStream();
+            JsonReader jsonReader = Json.createReader(is);
+            JsonObject jsonObject = jsonReader.readObject();
+            JsonArray jsonArray = jsonObject.getJsonArray("classes");
+            jsonReader.close();
+            
+            for(int i = 0; i < jsonArray.size(); i++){
+                JsonObject obj = jsonArray.getJsonObject(i);
+                if(obj.getInt("id") == intClass){
+                    return obj.getString("name");
+                }
+                //aryServer[i] = new WoWServer(obj);                
+            }
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(WoWServServ.class.getName()).log(Level.SEVERE, null, ex);
+        
+        } catch (IOException ioe){
+            Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, ioe);
+        
+        } catch(Exception e){
+            Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, e);
+            
+        }finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return sReturn;
+    }
     
+    
+    private String getRaceString(){
+        String sReturn = null;
+        
+        InputStream is = null;
+        
+        try{
+            is = new URL("http://us.battle.net/api/wow/data/character/races").openStream();
+            JsonReader jsonReader = Json.createReader(is);
+            JsonObject jsonObject = jsonReader.readObject();
+            JsonArray jsonArray = jsonObject.getJsonArray("races");
+            jsonReader.close();
+            
+            for(int i = 0; i < jsonArray.size(); i++){
+                JsonObject obj = jsonArray.getJsonObject(i);
+                if(obj.getInt("id") == intRace){
+                    return obj.getString("name");
+                }
+            }
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(WoWServServ.class.getName()).log(Level.SEVERE, null, ex);
+        
+        } catch (IOException ioe){
+            Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, ioe);
+        
+        } catch(Exception e){
+            Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, e);
+            
+        }finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return sReturn;
+    }
     
     
 }
