@@ -98,8 +98,8 @@ public class LeagueServerStatus extends HttpServlet {
             numServs = json.size();
             for(int i = 0; i < numServs; i++){
             sbReturn.append("</br>"); 
-            sbReturn.append(json.getJsonObject(i).toString());
-            
+            JsonObject temp = json.getJsonObject(i);
+            temp.getString("region_tag");
             }
                 //out.println(json.get("kmae26").toString());
 
