@@ -1,1 +1,7 @@
+*.class
+*.swp
+*.bak
+HelloWeb/nbproject/private/
+
+/HelloWeb/build/
 /HelloWeb/dist/
