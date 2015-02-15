@@ -16,7 +16,6 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.json.JsonValue;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +57,7 @@ public class LeagueServerStatus extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }
-        }    
+        }
     }
 
     private String startingHTML(String strTitle) {
@@ -109,37 +108,35 @@ public class LeagueServerStatus extends HttpServlet {
 
             }
             //out.println(json.get("kmae26").toString());
-            for(int i = 0; i < regions.size(); i++){
-            
-            is = new URL("http://status.leagueoflegends.com/shards/"+regions.get(i)).openStream();
-            jsonReader = Json.createReader(is);
-            JsonObject jsonO = jsonReader.readObject();
-            sb.append("Server name: ").append(jsonO.get("name").toString().replace("\"", ""));
-            sb.append("</br>");
+            for (int i = 0; i < regions.size(); i++) {
 
-            JsonArray serv = jsonO.getJsonArray("services");
-            int size = serv.size();
-            for(int j = 0; j< size; j++){
-                JsonObject tmp = serv.getJsonObject(j);
-                String name = tmp.getString("name");
-                String status = tmp.getString("status");
-                sb.append("&nbsp&nbsp&nbsp").append(name).append(" : ").append(status);
-
+                is = new URL("http://status.leagueoflegends.com/shards/" + regions.get(i)).openStream();
+                jsonReader = Json.createReader(is);
+                JsonObject jsonO = jsonReader.readObject();
+                sb.append("Server name: ").append(jsonO.get("name").toString().replace("\"", ""));
                 sb.append("</br>");
-            }
-            
+
+                JsonArray serv = jsonO.getJsonArray("services");
+                int size = serv.size();
+                for (int j = 0; j < size; j++) {
+                    JsonObject tmp = serv.getJsonObject(j);
+                    String name = tmp.getString("name");
+                    String status = tmp.getString("status");
+                    sb.append("&nbsp&nbsp&nbsp").append(name).append(" : ").append(status);
+
+                    sb.append("</br>");
+                }
+
             //JsonValue serv = jsonO.get("services");
-            //sbReturn.append(serv.toString());
-            //sbReturn.append("</br>");sbReturn.append("</br>");
-            
-           // sbReturn.append("Server status: " + serv.get("status"));
-            sb.append("</br>");sb.append("</br>");
+                //sbReturn.append(serv.toString());
+                //sbReturn.append("</br>");sbReturn.append("</br>");
+                // sbReturn.append("Server status: " + serv.get("status"));
+                sb.append("</br>");
+                sb.append("</br>");
             //sbReturn.append(jsonO.toString());
-                
+
             }
 
-            
-            
             jsonReader.close();
 
         } catch (MalformedURLException ex) {

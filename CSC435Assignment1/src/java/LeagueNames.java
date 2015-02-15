@@ -41,29 +41,29 @@ public class LeagueNames extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+
             HttpSession s = request.getSession();
             String sName = "";
-            
-            if(s.getAttribute("sumName") != null){
+
+            if (s.getAttribute("sumName") != null) {
                 sName = s.getAttribute("sumName").toString();
             }
 
-            if(request.getParameter("name") != null){
+            if (request.getParameter("name") != null) {
                 sName = request.getParameter("name");
                 s.setAttribute("sumName", sName);
-                
+
             }
-            
+
             String strOutput = "";
             strOutput = startingHTML("League Summoner Look Up");
-           
-            if(sName == ""){
-            
-            }else{
-            strOutput += makeAPIRequest(sName); 
+
+            if (sName == "") {
+                //do something but what???
+            } else {
+                strOutput += makeAPIRequest(sName);
             }
-            
+
             strOutput += endHTML();
 
             try {
@@ -94,10 +94,10 @@ public class LeagueNames extends HttpServlet {
 
         return sb.toString();
     }
-    
-        private String makeInputHTML(){
+
+    private String makeInputHTML() {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("<script>");
         sb.append("   function click1(){");
         sb.append("       var name = document.getElementById(\"name\");");
@@ -124,12 +124,12 @@ public class LeagueNames extends HttpServlet {
         StringBuilder sb = new StringBuilder();
         try {
 
-            is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/"+n+"?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
+            is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/" + n + "?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
 
             JsonReader jsonReader = Json.createReader(is);
 
             JsonObject json = jsonReader.readObject();
-               // out.println(json.toString());
+            // out.println(json.toString());
             //out.println(json.get("kmae26").toString());
             JsonObject values = json.getJsonObject(n);
             sb.append("</br>");
@@ -161,10 +161,6 @@ public class LeagueNames extends HttpServlet {
         return sb.toString();
 
     }
-
-
-    
-   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
