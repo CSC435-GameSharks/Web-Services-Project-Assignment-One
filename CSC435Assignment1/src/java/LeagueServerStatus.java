@@ -46,9 +46,9 @@ public class LeagueServerStatus extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String strOutput = "";
-            strOutput = startHTML("League Server Status");
-            strOutput += makeServerAPIRequest();
-            strOutput += closeHTML();
+            strOutput = startingHTML("League Server Status");
+            strOutput += makeAPIRequest();
+            strOutput += endHTML();
 
             try {
                 out.println(strOutput);
@@ -61,14 +61,14 @@ public class LeagueServerStatus extends HttpServlet {
         }    
     }
 
-    private String startHTML(String strTitle) {
+    private String startingHTML(String strTitle) {
         StringBuilder sbReturn = new StringBuilder();
 
         sbReturn.append("<!DOCTYPE html>");
         sbReturn.append("<html>");
         sbReturn.append("   <head>");
         sbReturn.append("       <title>");
-        sbReturn.append("           " + strTitle);
+        sbReturn.append("           ").append(strTitle);
         sbReturn.append("       </title>");
         sbReturn.append("   </head>");
         sbReturn.append("   <body>");
@@ -76,7 +76,7 @@ public class LeagueServerStatus extends HttpServlet {
         return sbReturn.toString();
     }
 
-    private String closeHTML() {
+    private String endHTML() {
         StringBuilder sbReturn = new StringBuilder();
 
         sbReturn.append("   </body>");
@@ -86,7 +86,7 @@ public class LeagueServerStatus extends HttpServlet {
 
     }
 
-    private String makeServerAPIRequest() {
+    private String makeAPIRequest() {
         InputStream is = null;
         int numServs;
         StringBuilder sbReturn = new StringBuilder();
@@ -114,7 +114,7 @@ public class LeagueServerStatus extends HttpServlet {
             is = new URL("http://status.leagueoflegends.com/shards/"+regions.get(i)).openStream();
             jsonReader = Json.createReader(is);
             JsonObject jsonO = jsonReader.readObject();
-            sbReturn.append("Server name: " + jsonO.get("name").toString().replace("\"", ""));
+            sbReturn.append("Server name: ").append(jsonO.get("name").toString().replace("\"", ""));
             sbReturn.append("</br>");
 
             JsonArray serv = jsonO.getJsonArray("services");
@@ -123,7 +123,7 @@ public class LeagueServerStatus extends HttpServlet {
                 JsonObject tmp = serv.getJsonObject(j);
                 String name = tmp.getString("name");
                 String status = tmp.getString("status");
-                sbReturn.append("&nbsp&nbsp&nbsp"+ name + " : "+ status);
+                sbReturn.append("&nbsp&nbsp&nbsp").append(name).append(" : ").append(status);
 
                 sbReturn.append("</br>");
             }

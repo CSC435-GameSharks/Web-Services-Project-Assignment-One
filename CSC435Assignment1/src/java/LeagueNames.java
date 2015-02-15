@@ -56,15 +56,15 @@ public class LeagueNames extends HttpServlet {
             }
             
             String strOutput = "";
-            strOutput = startHTML("League Summoner Look Up");
+            strOutput = startingHTML("League Summoner Look Up");
            
             if(sName == ""){
             
             }else{
-            strOutput += makeServerAPIRequest(sName); 
+            strOutput += makeAPIRequest(sName); 
             }
             
-            strOutput += closeHTML();
+            strOutput += endHTML();
 
             try {
                 out.println(strOutput);
@@ -79,7 +79,7 @@ public class LeagueNames extends HttpServlet {
 
     }
 
-    private String startHTML(String strTitle) {
+    private String startingHTML(String strTitle) {
         StringBuilder sbReturn = new StringBuilder();
 
         sbReturn.append("<!DOCTYPE html>");
@@ -109,7 +109,7 @@ public class LeagueNames extends HttpServlet {
         return sbReturn.toString();
     }
 
-    private String closeHTML() {
+    private String endHTML() {
         StringBuilder sbReturn = new StringBuilder();
 
         sbReturn.append("   </body>");
@@ -119,7 +119,7 @@ public class LeagueNames extends HttpServlet {
 
     }
 
-    private String makeServerAPIRequest(String n) {
+    private String makeAPIRequest(String n) {
         InputStream is = null;
         StringBuilder sbReturn = new StringBuilder();
         try {
