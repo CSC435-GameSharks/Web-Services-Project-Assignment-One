@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,9 +41,29 @@ public class LeagueNames extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+            HttpSession s = request.getSession();
+            String sName = "";
+            
+            if(s.getAttribute("sumName") != null){
+                sName = s.getAttribute("sumName").toString();
+            }
+
+            if(request.getParameter("name") != null){
+                sName = request.getParameter("name");
+                s.setAttribute("sumName", sName);
+                
+            }
+            
             String strOutput = "";
-            strOutput = startHTML("League Summoner Look UP");
-            strOutput += makeServerAPIRequest();
+            strOutput = startHTML("League Summoner Look Up");
+           
+            if(sName == ""){
+            
+            }else{
+            strOutput += makeServerAPIRequest(sName); 
+            }
+            
             strOutput += closeHTML();
 
             try {
@@ -68,8 +89,27 @@ public class LeagueNames extends HttpServlet {
         sbReturn.append("           ").append(strTitle);
         sbReturn.append("       </title>");
         sbReturn.append("   </head>");
+        sbReturn.append(inputHTML());
         sbReturn.append("   <body>");
 
+        return sbReturn.toString();
+    }
+    
+        private String inputHTML(){
+        StringBuilder sbReturn = new StringBuilder();
+        
+        sbReturn.append("<script>");
+        sbReturn.append("   function btnClick1(){");
+        sbReturn.append("       var txtName = document.getElementById(\"txtName\");");
+        sbReturn.append("       window.location.assign(\"http://localhost:8080/CSC435Assignment1/LSumServ?name=\" + txtName.value);");
+        sbReturn.append("   }");
+        sbReturn.append("   function btnClick2(){");
+        sbReturn.append("       window.location.assign(\"http://localhost:8080);");
+        sbReturn.append("   }");
+        sbReturn.append("</script>");
+        sbReturn.append("Summoner Name:<input id=\"txtName\" type=\"text\" name=\"txtName\"></br>");
+        sbReturn.append("<input id=\"Submit\" type=\"button\" value=\"Submit\" onclick=\"btnClick1();\">");
+        sbReturn.append("<input id=\"Go Back\" type=\"button\" value=\"Go Back\" onclick=\"btnClick2();\"></br>");
         return sbReturn.toString();
     }
 
@@ -83,21 +123,21 @@ public class LeagueNames extends HttpServlet {
 
     }
 
-    private String makeServerAPIRequest() {
+    private String makeServerAPIRequest(String n) {
         InputStream is = null;
         StringBuilder sbReturn = new StringBuilder();
         try {
 
-            is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/kmae26?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
+            is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/"+n+"?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
 
             JsonReader jsonReader = Json.createReader(is);
 
             JsonObject json = jsonReader.readObject();
                // out.println(json.toString());
             //out.println(json.get("kmae26").toString());
-            JsonObject values = json.getJsonObject("kmae26");
+            JsonObject values = json.getJsonObject(n);
             sbReturn.append("</br>");
-            sbReturn.append("Summoner Name: ").append(values.get("name").toString());
+            sbReturn.append("Summoner Name: ").append(values.get("name").toString().replace("\"", ""));
             sbReturn.append("</br>");
             sbReturn.append("ID: ").append(values.get("id").toString());
             sbReturn.append("</br>");

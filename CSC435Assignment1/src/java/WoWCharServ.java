@@ -210,7 +210,7 @@ public class WoWCharServ extends HttpServlet {
         sbReturn.append("   function btnClick(){");
         sbReturn.append("       var txtRealm = document.getElementById(\"txtRealm\");");
         sbReturn.append("       var txtName = document.getElementById(\"txtName\");");
-        sbReturn.append("       window.location.assign(\"http://localhost:8080/HelloWeb/CharServ?name=\" + txtName.value + \"&realm=\" + txtRealm.value);");
+        sbReturn.append("       window.location.assign(\"http://localhost:8080/CSC435Assignment1/CharServ?name=\" + txtName.value + \"&realm=\" + txtRealm.value);");
         sbReturn.append("   }");
         sbReturn.append("</script>");
         sbReturn.append("Character Name:<input id=\"txtName\" type=\"text\" name=\"txtName\"></br>");
