@@ -9,12 +9,14 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonValue;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -86,23 +88,56 @@ public class LeagueServerStatus extends HttpServlet {
         InputStream is = null;
         int numServs;
         StringBuilder sbReturn = new StringBuilder();
+        ArrayList<String> regions = new ArrayList<String>();
         try {
             is = new URL("http://status.leagueoflegends.com/shards").openStream();
 
             JsonReader jsonReader = Json.createReader(is);
 
             JsonArray json = jsonReader.readArray();
-            sbReturn.append(json.toString());
-            sbReturn.append("</br>");
-            sbReturn.append("</br>");
-            numServs = json.size();
-            for(int i = 0; i < numServs; i++){
-            sbReturn.append("</br>"); 
-            JsonObject temp = json.getJsonObject(i);
-            temp.getString("region_tag");
-            }
-                //out.println(json.get("kmae26").toString());
+            //sbReturn.append(json.toString());
 
+            numServs = json.size();
+            for (int i = 0; i < numServs; i++) {
+                JsonObject temp = json.getJsonObject(i);
+                String blah = temp.get("slug").toString();
+                blah = blah.replace("\"", "");
+                regions.add(blah);
+                //sbReturn.append(blah);
+
+            }
+            //out.println(json.get("kmae26").toString());
+            for(int i = 0; i < regions.size(); i++){
+            
+            is = new URL("http://status.leagueoflegends.com/shards/"+regions.get(i)).openStream();
+            jsonReader = Json.createReader(is);
+            JsonObject jsonO = jsonReader.readObject();
+            sbReturn.append("Server name: " + jsonO.get("name").toString().replace("\"", ""));
+            sbReturn.append("</br>");
+
+            JsonArray serv = jsonO.getJsonArray("services");
+            int size = serv.size();
+            for(int j = 0; j< size; j++){
+                JsonObject tmp = serv.getJsonObject(j);
+                String name = tmp.getString("name");
+                String status = tmp.getString("status");
+                sbReturn.append("&nbsp&nbsp&nbsp"+ name + " : "+ status);
+
+                sbReturn.append("</br>");
+            }
+            
+            //JsonValue serv = jsonO.get("services");
+            //sbReturn.append(serv.toString());
+            //sbReturn.append("</br>");sbReturn.append("</br>");
+            
+           // sbReturn.append("Server status: " + serv.get("status"));
+            sbReturn.append("</br>");sbReturn.append("</br>");
+            //sbReturn.append(jsonO.toString());
+                
+            }
+
+            
+            
             jsonReader.close();
 
         } catch (MalformedURLException ex) {

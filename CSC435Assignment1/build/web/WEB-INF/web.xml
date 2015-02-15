@@ -8,6 +8,14 @@
         <servlet-name>LeagueServerStatus</servlet-name>
         <servlet-class>LeagueServerStatus</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WoWServServ</servlet-name>
+        <servlet-class>WoWServServ</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WoWCharServ</servlet-name>
+        <servlet-class>WoWCharServ</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LeagueNames</servlet-name>
         <url-pattern>/LeagueNames</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>LeagueServerStatus</servlet-name>
         <url-pattern>/LeagueServerStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WoWServServ</servlet-name>
+        <url-pattern>/WoWServServ</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WoWCharServ</servlet-name>
+        <url-pattern>/WoWCharServ</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
