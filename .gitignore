@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 *.class
 *.swp
 *.bak
 HelloWeb/nbproject/private/*
 
+=======
+*.class
+*.swp
+*.bak
+HelloWeb/nbproject/private/
+
+/HelloWeb/build/
+/HelloWeb/dist/
+>>>>>>> origin/Chaz
