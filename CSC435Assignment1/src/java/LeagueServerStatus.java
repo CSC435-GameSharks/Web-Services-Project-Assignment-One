@@ -45,13 +45,13 @@ public class LeagueServerStatus extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String strOutput = "";
-            strOutput = startingHTML("League Server Status");
-            strOutput += makeAPIRequest();
-            strOutput += endHTML();
+            String output = "";
+            output = startingHTML("League Server Status");
+            output += makeAPIRequest();
+            output += endHTML();
 
             try {
-                out.println(strOutput);
+                out.println(output);
             } catch (Exception ex) {
                 System.out.println(ex);
                 out.println(ex);
@@ -62,34 +62,34 @@ public class LeagueServerStatus extends HttpServlet {
     }
 
     private String startingHTML(String strTitle) {
-        StringBuilder sbReturn = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        sbReturn.append("<!DOCTYPE html>");
-        sbReturn.append("<html>");
-        sbReturn.append("   <head>");
-        sbReturn.append("       <title>");
-        sbReturn.append("           ").append(strTitle);
-        sbReturn.append("       </title>");
-        sbReturn.append("   </head>");
-        sbReturn.append("   <body>");
+        sb.append("<!DOCTYPE html>");
+        sb.append("<html>");
+        sb.append("   <head>");
+        sb.append("       <title>");
+        sb.append("           ").append(strTitle);
+        sb.append("       </title>");
+        sb.append("   </head>");
+        sb.append("   <body>");
 
-        return sbReturn.toString();
+        return sb.toString();
     }
 
     private String endHTML() {
-        StringBuilder sbReturn = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        sbReturn.append("   </body>");
-        sbReturn.append("</html>");
+        sb.append("   </body>");
+        sb.append("</html>");
 
-        return sbReturn.toString();
+        return sb.toString();
 
     }
 
     private String makeAPIRequest() {
         InputStream is = null;
         int numServs;
-        StringBuilder sbReturn = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         ArrayList<String> regions = new ArrayList<String>();
         try {
             is = new URL("http://status.leagueoflegends.com/shards").openStream();
@@ -114,8 +114,8 @@ public class LeagueServerStatus extends HttpServlet {
             is = new URL("http://status.leagueoflegends.com/shards/"+regions.get(i)).openStream();
             jsonReader = Json.createReader(is);
             JsonObject jsonO = jsonReader.readObject();
-            sbReturn.append("Server name: ").append(jsonO.get("name").toString().replace("\"", ""));
-            sbReturn.append("</br>");
+            sb.append("Server name: ").append(jsonO.get("name").toString().replace("\"", ""));
+            sb.append("</br>");
 
             JsonArray serv = jsonO.getJsonArray("services");
             int size = serv.size();
@@ -123,9 +123,9 @@ public class LeagueServerStatus extends HttpServlet {
                 JsonObject tmp = serv.getJsonObject(j);
                 String name = tmp.getString("name");
                 String status = tmp.getString("status");
-                sbReturn.append("&nbsp&nbsp&nbsp").append(name).append(" : ").append(status);
+                sb.append("&nbsp&nbsp&nbsp").append(name).append(" : ").append(status);
 
-                sbReturn.append("</br>");
+                sb.append("</br>");
             }
             
             //JsonValue serv = jsonO.get("services");
@@ -133,7 +133,7 @@ public class LeagueServerStatus extends HttpServlet {
             //sbReturn.append("</br>");sbReturn.append("</br>");
             
            // sbReturn.append("Server status: " + serv.get("status"));
-            sbReturn.append("</br>");sbReturn.append("</br>");
+            sb.append("</br>");sb.append("</br>");
             //sbReturn.append(jsonO.toString());
                 
             }
@@ -159,7 +159,7 @@ public class LeagueServerStatus extends HttpServlet {
             }
         }
 
-        return sbReturn.toString();
+        return sb.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

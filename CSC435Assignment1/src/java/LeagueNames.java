@@ -80,48 +80,48 @@ public class LeagueNames extends HttpServlet {
     }
 
     private String startingHTML(String strTitle) {
-        StringBuilder sbReturn = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        sbReturn.append("<!DOCTYPE html>");
-        sbReturn.append("<html>");
-        sbReturn.append("   <head>");
-        sbReturn.append("       <title>");
-        sbReturn.append("           ").append(strTitle);
-        sbReturn.append("       </title>");
-        sbReturn.append("   </head>");
-        sbReturn.append(inputHTML());
-        sbReturn.append("   <body>");
+        sb.append("<!DOCTYPE html>");
+        sb.append("<html>");
+        sb.append("   <head>");
+        sb.append("       <title>");
+        sb.append("           ").append(strTitle);
+        sb.append("       </title>");
+        sb.append("   </head>");
+        sb.append(makeInputHTML());
+        sb.append("   <body>");
 
-        return sbReturn.toString();
+        return sb.toString();
     }
     
-        private String inputHTML(){
-        StringBuilder sbReturn = new StringBuilder();
+        private String makeInputHTML(){
+        StringBuilder sb = new StringBuilder();
         
-        sbReturn.append("<script>");
-        sbReturn.append("   function btnClick1(){");
-        sbReturn.append("       var txtName = document.getElementById(\"txtName\");");
-        sbReturn.append("       window.location.assign(\"http://localhost:8080/CSC435Assignment1/LSumServ?name=\" + txtName.value);");
-        sbReturn.append("   }");
-        sbReturn.append("</script>");
-        sbReturn.append("Summoner Name:<input id=\"txtName\" type=\"text\" name=\"txtName\"></br>");
-        sbReturn.append("<input id=\"Submit\" type=\"button\" value=\"Submit\" onclick=\"btnClick1();\">");
-        return sbReturn.toString();
+        sb.append("<script>");
+        sb.append("   function click1(){");
+        sb.append("       var name = document.getElementById(\"name\");");
+        sb.append("       window.location.assign(\"http://localhost:8080/CSC435Assignment1/LSumServ?name=\" + name.value);");
+        sb.append("   }");
+        sb.append("</script>");
+        sb.append("Summoner Name:<input id=\"name\" type=\"text\" name=\"name\"></br>");
+        sb.append("<input id=\"Submit\" type=\"button\" value=\"Submit\" onclick=\"click1();\">");
+        return sb.toString();
     }
 
     private String endHTML() {
-        StringBuilder sbReturn = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        sbReturn.append("   </body>");
-        sbReturn.append("</html>");
+        sb.append("   </body>");
+        sb.append("</html>");
 
-        return sbReturn.toString();
+        return sb.toString();
 
     }
 
     private String makeAPIRequest(String n) {
         InputStream is = null;
-        StringBuilder sbReturn = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         try {
 
             is = new URL("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/"+n+"?api_key=cc288bed-bfa3-4158-9642-6b276a1381d7").openStream();
@@ -132,12 +132,12 @@ public class LeagueNames extends HttpServlet {
                // out.println(json.toString());
             //out.println(json.get("kmae26").toString());
             JsonObject values = json.getJsonObject(n);
-            sbReturn.append("</br>");
-            sbReturn.append("Summoner Name: ").append(values.get("name").toString().replace("\"", ""));
-            sbReturn.append("</br>");
-            sbReturn.append("ID: ").append(values.get("id").toString());
-            sbReturn.append("</br>");
-            sbReturn.append("Level: ").append(values.get("summonerLevel").toString());
+            sb.append("</br>");
+            sb.append("Summoner Name: ").append(values.get("name").toString().replace("\"", ""));
+            sb.append("</br>");
+            sb.append("ID: ").append(values.get("id").toString());
+            sb.append("</br>");
+            sb.append("Level: ").append(values.get("summonerLevel").toString());
 
             jsonReader.close();
 
@@ -158,7 +158,7 @@ public class LeagueNames extends HttpServlet {
             }
         }
 
-        return sbReturn.toString();
+        return sb.toString();
 
     }
 
