@@ -9,6 +9,6 @@ package Diablo;
  *
  * @author csaroff
  */
-public class Hero {
+public class PassiveSkill {
     
 }

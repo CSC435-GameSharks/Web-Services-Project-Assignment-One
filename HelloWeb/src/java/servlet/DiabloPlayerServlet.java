@@ -88,7 +88,7 @@ public class DiabloPlayerServlet extends HttpServlet {
                 sOutput += "</br>ERROR: Bad User or Realm  ";
             }else{
                 diabloPlayer = makeServerAPIRequest(battleTagName, battleTagCode);
-                sOutput += createCharHTML(diabloPlayer);
+                sOutput += createCareerHTML(diabloPlayer);
                 //sOutput += wowChar.getName();
                 //sOutput += wowChar.getThumbnail();
                 //sOutput += "</br> " + s.getAttribute("charName");
@@ -179,59 +179,35 @@ public class DiabloPlayerServlet extends HttpServlet {
         
         return sbReturn.toString();
     }
+    
+    
         /**
      * 
      * @param diabloPlayer
      * @return an HTML table containing the player data
      */
-    private String createCharHTML(Career diabloPlayer){
+    private String createCareerHTML(Career diabloPlayer){
         StringBuilder sbReturn = new StringBuilder();
         
-        sbReturn.append("<div class=\"mainDiv\">");
-        sbReturn.append("   <h2 class=\"characterTitle\">");
-        sbReturn.append("       Career Profile");
-        sbReturn.append("   </h2>");
-        sbReturn.append("   <table class=\"charTable\">");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td class=\"mainDivPhoto\" rowspan=\"5\">");
+    //<body>
+    //    </br> 
+    //  Summoner Name: Chaz </br>
+    //    ID: 8453</br>
+    //    Level: 30 
+    //</body>
+
+
 //        sbReturn.append("               <img src=\"http://us.battle.net/static-render/us/" + diabloPlayer.getThumbnail() + "\"/>");
 //        sbReturn.append("<img src=\"http://i7.minus.com/iDiaMmIM6QE9R.jpg\">");
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td class=\"nameCell\">");
-//        sbReturn.append("               " + wowChar.getName());
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td>");
-//        sbReturn.append("               Level " + wowChar.getLevel() + " " 
-//                + wowChar.getRace() + " " + wowChar.getCharClass());
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td>");
-//        sbReturn.append("               Realm: " + wowChar.getRealm());
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td>");
-//        sbReturn.append("               Battlegroup: " + wowChar.getBattleGroup());
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td>");
-//        sbReturn.append("               Honourable Kills: " + wowChar.getHonorableKills());
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("       <tr>");
-        sbReturn.append("           <td>");
-//        sbReturn.append("               Achievement Points: " + wowChar.getAchievementPoints());
-        sbReturn.append("           </td>");
-        sbReturn.append("       </tr>");
-        sbReturn.append("   </table>");
-        sbReturn.append("<div>");
-        
+        sbReturn.append("           </br>\n");
+        sbReturn.append("Battle Tag:    " + diabloPlayer.getBattleTag()+ "</br>\n");
+        sbReturn.append("Paragon Level " + diabloPlayer.getParagonLevel() + "</br>\n");
+//        sbReturn.append("               Last Hero Played: " + diabloPlayer.getLastHero());
+        sbReturn.append("Number of Kills: " + "</br>\n");
+        sbReturn.append("Monsters: " + diabloPlayer.getKills().getMonsters() + "</br>\n");
+        sbReturn.append("Elites: " + diabloPlayer.getKills().getElites() + "</br>\n");
+        sbReturn.append("Hardcore Monsters: " + diabloPlayer.getKills().getHardcoreMonsters());
+    
         
         return sbReturn.toString();
     }
