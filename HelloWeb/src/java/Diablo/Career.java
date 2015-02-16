@@ -18,6 +18,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
+import javax.json.JsonValue;
 /**
  *
  * @author csaroff
@@ -28,7 +29,7 @@ public class Career {
     private int paragonLevelHardcore;
     private int paragonLevelSeason;
     private int paragonLevelSeasonHardcore;
-//    List<Hero> heroes;
+    List<Hero> heroes;
     private int lastHeroPlayed;
     private int lastUpdated;
     private Kill kills;
@@ -39,11 +40,38 @@ public class Career {
         paragonLevelHardcore = objIn.getInt("paragonLevelHardcore");
         paragonLevelSeason = objIn.getInt("paragonLevelSeason");
         paragonLevelSeasonHardcore = objIn.getInt("paragonLevelSeasonHardcore");
+        
+        JsonArray jsonHeroes = objIn.getJsonArray("heroes");
+        ArrayList<Hero> heroes = new ArrayList<Hero>();
+        for(JsonValue jsonHero : jsonHeroes){
+            heroes.add(new Hero((JsonObject)(jsonHero)));
+        }
+        this.heroes=heroes;
+        
         lastHeroPlayed = objIn.getInt("lastHeroPlayed");
         lastUpdated = objIn.getInt("lastUpdated");
         kills = new Kill(objIn.getJsonObject("kills"));
     }
-    
+        public String toHtmlString(){
+        StringBuilder sbReturn = new StringBuilder();
+        
+//        sbReturn.append("               <img src=\"http://us.battle.net/static-render/us/" + diabloPlayer.getThumbnail() + "\"/>");
+//        sbReturn.append("<img src=\"http://i7.minus.com/iDiaMmIM6QE9R.jpg\">");
+        sbReturn.append("           </br>\n");
+        sbReturn.append("Battle Tag:    " + this.getBattleTag()+ "</br>\n");
+        sbReturn.append("Paragon Level " + this.getParagonLevel() + "</br>\n");
+//        sbReturn.append("               Last Hero Played: " + diabloPlayer.getLastHero());
+        sbReturn.append("Number of Kills: " + "</br>\n");
+        sbReturn.append("Monsters: " + this.getKills().getMonsters() + "</br>\n");
+        sbReturn.append("Elites: " + this.getKills().getElites() + "</br>\n");
+        sbReturn.append("Hardcore Monsters: " + this.getKills().getHardcoreMonsters() + "</br>\n");
+        sbReturn.append("Heroes:" + "</br>\n");
+        for(Hero hero : heroes){
+            sbReturn.append(hero.toHTMLString());
+        }
+        
+        return sbReturn.toString();
+    }
     public String getBattleTag() {
         return battleTag;
     }

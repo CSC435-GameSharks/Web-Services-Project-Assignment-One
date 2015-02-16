@@ -44,23 +44,22 @@ public class DiabloPlayerServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            //http://us.battle.net/api/wow/character/firetree/joepaterno
-            //?name=name&realm=realm
+            //http://localhost:8080/HelloWeb/DiabloPlayer
+            //?battleTagName=faithpaladin&battleTagCode=1761
             HttpSession s = request.getSession();
             String battleTagName = "";
             String battleTagCode = "";
             
-            //Check the session for a realm
+            //Check the session for a battle tag name
             if(s.getAttribute("battleTagName") != null){
                 battleTagName = s.getAttribute("battleTagName").toString();
             }
-            System.out.println("Battle Tag Name: " + battleTagName);
-            //Check the session for a name
+            
+            //Check the session for a battle tag code
             if(s.getAttribute("battleTagCode") != null){
                 battleTagCode = s.getAttribute("battleTagCode").toString();
             }
-            System.out.println("Battle Tag Code:" + battleTagCode);
-
+            
             
             //Check if there are any quert string infromation
             //if we have these we want to use them instead of what
@@ -80,19 +79,19 @@ public class DiabloPlayerServlet extends HttpServlet {
             
             //Start building the output
             String sOutput = "";
-            Career diabloPlayer = null;
-            sOutput = startHTML("Diablo Characters Overview", "WoWStyle.css");
             
+            sOutput += startHTML("Diablo Characters Overview");
+            
+            sOutput+=inputHTML();
             //Check to see if we have valid information to make a request
-            if(battleTagName .equals("") || battleTagCode.equals("")){
-                sOutput += "</br>ERROR: Bad User or Realm  ";
-            }else{
-                diabloPlayer = makeServerAPIRequest(battleTagName, battleTagCode);
-                sOutput += createCareerHTML(diabloPlayer);
-                //sOutput += wowChar.getName();
-                //sOutput += wowChar.getThumbnail();
-                //sOutput += "</br> " + s.getAttribute("charName");
-            }
+            if(!(battleTagName.equals("")&&battleTagCode.equals(""))){
+                Career diabloPlayer = makeServerAPIRequest(battleTagName, battleTagCode);
+                if(diabloPlayer!=null){
+                    sOutput += diabloPlayer.toHtmlString();
+                }else{
+                    sOutput+="The Diablo Career that you entered does not exist.";
+                }
+            }    
             
             sOutput += closeHTML();
             
@@ -120,7 +119,6 @@ public class DiabloPlayerServlet extends HttpServlet {
         sbReturn.append("           " + strTitle);
         sbReturn.append("       </title>");
         sbReturn.append("   </head>");
-        sbReturn.append(inputHTML());
         sbReturn.append("   <body>");
         
         return sbReturn.toString();
@@ -143,7 +141,6 @@ public class DiabloPlayerServlet extends HttpServlet {
         sbReturn.append("       </title>");
         sbReturn.append("       <link rel=\"stylesheet\" type=\"text/css\" href=\"" + strCssSheet + "\">");
         sbReturn.append("   </head>");
-        sbReturn.append(inputHTML());
         sbReturn.append("   <body>");
         
         return sbReturn.toString();
@@ -180,40 +177,10 @@ public class DiabloPlayerServlet extends HttpServlet {
         return sbReturn.toString();
     }
     
-    
-        /**
-     * 
-     * @param diabloPlayer
-     * @return an HTML table containing the player data
-     */
-    private String createCareerHTML(Career diabloPlayer){
-        StringBuilder sbReturn = new StringBuilder();
-        
-    //<body>
-    //    </br> 
-    //  Summoner Name: Chaz </br>
-    //    ID: 8453</br>
-    //    Level: 30 
-    //</body>
 
-
-//        sbReturn.append("               <img src=\"http://us.battle.net/static-render/us/" + diabloPlayer.getThumbnail() + "\"/>");
-//        sbReturn.append("<img src=\"http://i7.minus.com/iDiaMmIM6QE9R.jpg\">");
-        sbReturn.append("           </br>\n");
-        sbReturn.append("Battle Tag:    " + diabloPlayer.getBattleTag()+ "</br>\n");
-        sbReturn.append("Paragon Level " + diabloPlayer.getParagonLevel() + "</br>\n");
-//        sbReturn.append("               Last Hero Played: " + diabloPlayer.getLastHero());
-        sbReturn.append("Number of Kills: " + "</br>\n");
-        sbReturn.append("Monsters: " + diabloPlayer.getKills().getMonsters() + "</br>\n");
-        sbReturn.append("Elites: " + diabloPlayer.getKills().getElites() + "</br>\n");
-        sbReturn.append("Hardcore Monsters: " + diabloPlayer.getKills().getHardcoreMonsters());
-    
-        
-        return sbReturn.toString();
-    }
     /**
      * 
-     * @return A WoWCharacter using the user supplied realm and character name
+     * @return A Diablo Career using the user supplied realm and character name
      */
     private Career makeServerAPIRequest(String  battleTagName, String battleTagCode){
         Career diabloPlayer = null;
@@ -224,23 +191,25 @@ public class DiabloPlayerServlet extends HttpServlet {
             JsonReader jsonReader = Json.createReader(is);
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
-            
+            //if(jsonObject==null){
+            //    return null;
+            //}
             diabloPlayer = new Career(jsonObject);
             
         } catch (MalformedURLException ex) {
-            Logger.getLogger(WoWServServ.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DiabloPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
         
         } catch (IOException ioe){
-            Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, ioe);
+            Logger.getLogger(DiabloPlayerServlet.class.getName()).log(Level.SEVERE, null, ioe);
         
         } catch(Exception e){
-            Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DiabloPlayerServlet.class.getName()).log(Level.SEVERE, null, e);
             
         }finally {
             try {
                 is.close();
             } catch (IOException ex) {
-                Logger.getLogger(WoWCharServ.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DiabloPlayerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
