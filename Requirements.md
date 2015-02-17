@@ -13,7 +13,7 @@ Members
 Client Functionality
 --------------------
 
-1. Server Data (LoL, WoW, Diablo III) - Stateless
+1. Server Data (LoL, WoW) - Stateless
    1. Up/down
    2. Region
 1. Champion Data (LoL) - Stateless
@@ -25,8 +25,9 @@ Client Functionality
    2. Role (Healer, Tank)
    3. Skill List
 1. Summoner Stats (LoL) - Stateful
-   1. Game History
-   2. Win Ratio
+   1. Name ID
+   2. Summoner ID 
+   3. Level
 1. Character/ User Data (WoW, Diablo) - Stateful
    1. Character List
       1. Character type
