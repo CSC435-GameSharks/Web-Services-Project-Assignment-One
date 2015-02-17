@@ -20,11 +20,11 @@ Client Functionality
    1. General Base Stats
    2. counter champion
    3. recommended lane (database?)
-1. Character Class (WoW, Diablo III) - Statefull
+1. Character Class (WoW, Diablo III) - Stateful
    1. General Base Stats
    2. Role (Healer, Tank)
    3. Skill List
-1. Summoner Stats (LoL) - StatefulS
+1. Summoner Stats (LoL) - Stateful
    1. Game History
    2. Win Ratio
 1. Character/ User Data (WoW, Diablo) - Stateful
