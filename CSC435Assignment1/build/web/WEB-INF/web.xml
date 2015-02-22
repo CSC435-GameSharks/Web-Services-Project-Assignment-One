@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>LeagueNames</servlet-name>
+        <servlet-class>LeagueNames</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LeagueServerStatus</servlet-name>
+        <servlet-class>LeagueServerStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WoWServServ</servlet-name>
+        <servlet-class>WoWServServ</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WoWCharServ</servlet-name>
+        <servlet-class>WoWCharServ</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeagueNames</servlet-name>
+        <url-pattern>/LeagueNames</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LeagueServerStatus</servlet-name>
+        <url-pattern>/LeagueServerStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WoWServServ</servlet-name>
+        <url-pattern>/WoWServServ</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WoWCharServ</servlet-name>
+        <url-pattern>/WoWCharServ</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
