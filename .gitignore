@@ -1,1 +1,4 @@
-/HelloWeb/dist/
+*.class
+*.swp
+*.bak
+
