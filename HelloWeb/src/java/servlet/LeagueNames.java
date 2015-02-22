@@ -59,7 +59,7 @@ public class LeagueNames extends HttpServlet {
             strOutput = startingHTML("League Summoner Look Up");
 
             if (sName == "") {
-               strOutput += "</br>Invalid Summoner Name ";
+                 strOutput += "</br>Invalid Summoner Name ";
             } else {
                 strOutput += makeAPIRequest(sName);
             }
