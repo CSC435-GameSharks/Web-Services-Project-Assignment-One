@@ -1,33 +1,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="WoWStyle.css">
+        <!-- <link rel="stylesheet" type="text/css" href="WoWStyle.css"> 
+        -->
         <title>
-            WoW Server Status
+            Diablo Follower Information
         </title>
     </head>
     <body>
-        <table>
-            <caption>
-                WoW Server Statuses
-            </caption>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Status
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    Server 1
-                </td>
-                <td>
-                    Status
-                </td>
-            </tr>
-        </table>
-    </body>      
+        <h1> Diablo Follower Information </h1>
+<select onchange="this.options[this.selectedIndex].value && (window.location.assign(this.options[this.selectedIndex].value));">
+    <option value="">Select...</option>
+    <option value="DiabloFollower?follower=enchantress">Enchantress</option>
+    <option value="DiabloFollower?follower=templar">Templar</option>
+    <option value="DiabloFollower?follower=scoundrel">Scoundrel</option>
+</select>
+    </body>
 </html>
    
