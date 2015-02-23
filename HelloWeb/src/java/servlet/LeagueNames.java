@@ -101,7 +101,7 @@ public class LeagueNames extends HttpServlet {
         sb.append("<script>");
         sb.append("   function click1(){");
         sb.append("       var name = document.getElementById(\"name\");");
-        sb.append("       window.location.assign(\"http://localhost:8080/CSC435Assignment1/LSumServ?name=\" + name.value);");
+        sb.append("       window.location.assign(\"http://localhost:8080/HelloWeb/LSumServ?name=\" + name.value);");
         sb.append("   }");
         sb.append("</script>");
         sb.append("Summoner Name:<input id=\"name\" type=\"text\" name=\"name\"></br>");
