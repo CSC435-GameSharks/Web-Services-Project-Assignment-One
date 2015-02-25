@@ -20,7 +20,7 @@ Client Functionality
    1. General Base Stats
    2. counter champion
    3. recommended lane (database?)
-1. Character Class (WoW, Diablo III) - Stateful
+1. Character Class (WoW, Diablo III) - Stateful 
    1. General Base Stats
    2. Role (Healer, Tank)
    3. Skill List
@@ -50,10 +50,6 @@ Client Functionality
    3. opponent summoner name
    4. opponent champion
    5. see how screwed you are
-1. In game assistant - Stateful
-   1. Monitor teams gold
-   2. objectives
-   3. recommend items categories bases on in game team stats
 
 
  
