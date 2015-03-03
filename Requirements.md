@@ -44,6 +44,9 @@ Client Functionality
    1. Choose existing character
    2. Choose items 
    3. View modified character
+1. Follower Display (Diablo) - Stateless
+   1. Name
+   2. Active Skill Description
 1. Matchup calculator - Stateful
    1. your summoner name
    2. your champion
