@@ -47,12 +47,7 @@ Client Functionality
 1. Follower Display (Diablo) - Stateless
    1. Name
    2. Active Skill Description
-1. Matchup calculator - Stateful
-   1. your summoner name
-   2. your champion
-   3. opponent summoner name
-   4. opponent champion
-   5. see how screwed you are
+
 
 
  
